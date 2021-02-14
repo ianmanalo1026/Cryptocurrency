@@ -84,44 +84,6 @@ class DataBase(TimeControl):
             # self.database_eth = row[4]
             # self.database_xrp = row[5]
             
-
-"""Dash Script for visualization"""    
-
-   
-
-try:
-    engine = create_engine('postgresql+psycopg2://postgres:soulgun21@127.0.0.1:5432/Cryptocurrency')
-    connection = engine.connect()
-    print("Connected to Successful!")
-except RuntimeError:
-    print('error')
-    
-df = pd.read_sql('select * from "cryptocurrency"', connection); 
-
-fig = px.line(df, x="bitcoin_php", y="time", title="Bitcoin Line Chart", height=325)
-
-app = dash.Dash(__name__)
-
-app.layout = html.Div([
-    dcc.Graph(id="graph", figure=fig),
-    html.Pre(
-        id='structure',
-        style={
-            'border': 'thin lightgrey solid', 
-            'overflowY': 'scroll',
-            'height': '275px'
-        }
-    )
-])
-
-@app.callback(
-    Output("structure", "children"), 
-    [Input("graph", "figure")])
-def display_structure(fig_json):
-    return json.dumps(fig_json, indent=2)
-            
-            
-            
             
             
             
@@ -140,10 +102,9 @@ if __name__ == "__main__":
         db.last_row()
         # db.create_table()
         # db.store_data()
-        print(f"{db.database_btc} {c.bitcoin['bitcoin']['php']}")
+        print(f"{t.time_database}-{db.database_btc}-{c.bitcoin['bitcoin']['php']}")
         if (db.database_btc != c.bitcoin['bitcoin']['php']): 
             db.store_data()
-        app.run_server(debug=True)
         
                 
         
